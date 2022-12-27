@@ -47,5 +47,6 @@ def get_database_url():
 
     # create "~/.logbook/" directory if it does not exist
     Path(database_directory).mkdir(parents=True, exist_ok=True)
-
+    
+  
     return 'sqlite:///' + database_directory + '/notebook.sqlite3'
