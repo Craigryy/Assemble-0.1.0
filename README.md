@@ -8,12 +8,12 @@ exaample:
 export NOTE_BOOK_DATABASE_URL=sqlite:///]
 
 # Options:
---install--completion: Install completion for the current shell.
+*--install--completion: Install completion for the current shell.
 --show-completion: Show completion for the current shell, to copy it or customize the installation .
 --help: Show this message and exit .
 
 # Commands:
-add : Adds a note entry  to the notebook.
+*add : Adds a note entry  to the notebook.
 delete: Delete a note entry using it's ID
 edit: Update a note entry using it's ID
 find:list all note entries that match the argument
