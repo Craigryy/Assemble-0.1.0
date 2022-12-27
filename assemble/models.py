@@ -1,9 +1,9 @@
 import datetime
 
 from sqlalchemy import (
-    column,
+    Column,
     Integer,
-    string,
+    String,
     DATETIME,
 )
 
@@ -14,13 +14,15 @@ Base = declarative_base()
 
 class noteBook(Base):
     """
-    Table to store users note entries
+    Table to store users log entries
     """
     __tablename__ = 'note_book'
 
-    id = column(Integer,primary_key=True)
-    description=column(string(300),nullable=False)
-    note_datetime = column(DATETIME,nullable=False)
+    id = column(Integer, primary_key=True)
+    title = column(string(300), nullable=False)
+    note = column(string(300),nullable=False)
+    label = column(string(300),nullable=False)
+    note_datetime = column(DATETIME, nullable=False)
 
     created_at = column(
         datetime,
