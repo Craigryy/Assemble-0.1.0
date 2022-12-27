@@ -1,3 +1,8 @@
 from .cli import app
 
-app(prog_name="assemble")
+def main():
+    app(prog_name="assemble")
+
+
+if __name__ == "__main__":
+    main()
