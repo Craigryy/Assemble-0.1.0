@@ -14,7 +14,7 @@ Base = declarative_base()
 
 class noteBook(Base):
     """
-    Table to store users log entries
+    Table to store users note entries
     """
     __tablename__ = 'note_book'
 
