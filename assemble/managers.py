@@ -20,19 +20,21 @@ class noteBookManager:
             self.model.note_datetime.desc()
         ).limit(10).all()
 
-    def find(self, description_contains):
+    def find(self, title_contains, note_contains, label_contains):
         return self.session.query(self.model).filter(
-            self.model.description.contains(description_contains)
+            self.model.title.contains(title_contains, note_contains, label_contains)
         ).order_by(
             self.model.note_datetime.desc()
         ).all()
 
-    def get(self, id):
-        return self.session.query(self.model).get(id)
+    def get(self,identity ):
+        return self.session.query(self.model).get(identity)
 
-    def create(self, description, log_datetime, note_datetime=None):
+    def create(self, title, notes, label, note_datetime):
         note_entry = self.model(
-            description=description,
+            title=title,
+            notes=notes,
+            label=label,
             note_datetime=note_datetime
         )
         try:
@@ -43,37 +45,28 @@ class noteBookManager:
             self.session.rollback()
             return False, f'An error occurred while creating a note file.{e}'
 
-    def update(self, id, description=None, note_datetime=None):
-        if not description and not note_datetime:
-            return False, 'oops you must provide "--description" and/or "--date and time--"'
+    def update(self, identity, title=None, notes=None, label=None, note_datetime=None):
+        if title or notes or label or note_datetime:
+            return False, 'you must provide details.'
 
-        note_entry = self.session.query(self.model).get(id)
+            note_entry = self.session.query(self.model).get(identity)
+            
+                try:
+                    self.session.commit()
+                    return True, 'Note successfully updated'
+                except Exception as e:
+                    self.session.rollback()
+                    return False, f'Oops an error occurred while updating note.{e}'
+                else:
+                    return False
 
-        if note_entry:
-            if description:
-                note_entry.description = description
+    def delete(self, identity):
+        delete_count = self.session.query(self.model).filter_by(identity=identity).delete()
 
-            if note_datetime:
-                note_entry.note_datetime = note_datetime
-
+        if delete_count > 0:
             try:
                 self.session.commit()
-                return True, 'Note successfully updated'
+                return True, 'Note successfully Deleted '
             except Exception as e:
                 self.session.rollback()
-                return False, f'Oops an error occurred while updating note.{e}'
-            else:
-                return False, f'Oops no note found with id={id} '
-
-    def delete(self,id):
-        delete_count = self.session.query(self.model).filter_by(id=id).delete()
-
-        if delete_count > 0 :
-            try :
-                self.session.commit()
-                return True,'Note successfully Deleted '
-            except Exception as e :
-                self.session.rollback()
-                return False, f'Oops an error ocurred while deleting a note.{e}'
-            else:
-                return False , f'Oops no bote found with id={id}'
+                return (False, f'Oops an error ocurred while deleting a note.{e}')
