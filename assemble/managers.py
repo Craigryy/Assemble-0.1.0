@@ -44,8 +44,10 @@ class noteBookManager:
         )
          file_name = "folder app -notesapp csv.csv"
         data = Load_Data(file_name)
-
-        for i in data:
+        
+        
+        try:
+            for i in data:
             record = noteBook(**{
                 'date': datetime.strptime(i[5], '%d-%b-%y').date(),
                 'id': i[0],
@@ -53,9 +55,8 @@ class noteBookManager:
                 'notes': i[3],
                 'label': i[4],
             })
-            s.add(record)  # Add all the records
+            s.add(record)  # Add all the record
             
-        try:
             self.session.add(note_entry)
             self.session.commit()
             return True, 'Note created😊😊'
@@ -84,7 +85,7 @@ class noteBookManager:
         if delete_count > 0:
             try:
                 self.session.commit()
-                return True, 'Note successfully Deleted '
+            .    return True, 'Note successfully Deleted '
             except Exception as e:
                 self.session.rollback()
                 return (False, f'Oops an error ocurred while deleting a note.{e}')
