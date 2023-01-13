@@ -1,8 +1,12 @@
-from .cli import app
+import typer
+from rich.traceback import install
+from assemble import files,folder
 
-def main():
-    app(prog_name="assemble")
+app=typer.Typer()
+app.add_typer(files.app , name="File")
+app.add_typer(folder.app, name='Folder')
+install()
 
 
-if __name__ == "__main__":
-    main()
+if __name__=="__main__":
+    app()
