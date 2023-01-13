@@ -1,42 +1,33 @@
-import datetime
-
-from sqlalchemy import (
-    Column,
-    Integer,
-    String,
-    DATETIME,
-)
-
 from sqlalchemy.ext.declarative import declarative_base
-
-def Load_Data(file_name):
-    data = genfromtxt(file_name, delimiter=',', skip_header=1, converters={0: lambda s: str(s)})
-    return data.tolist()
+from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, ForeignKey
 
 Base = declarative_base()
 
 
-class noteBook(Base):
-    """
-    Table to store users note entries
-    """
-    __tablename__ = 'note_book'
+class Folder(Base):
+    """ Folder account."""
 
-    id = column(Integer, primary_key=True)
-    title = column(string(300), nullable=False)
-    note = column(string(300),nullable=False)
-    label = column(string(300),nullable=False)
-    note_datetime = column(DATETIME, nullable=False)
+    __tablename__ = "folders"
 
-    created_at = column(
-        datetime,
-        default=datetime.now,
-        nullable=False
-    )
+    gid = Column(Integer(), primary_key=True)
+    name = Column(String(200), nullable=False)
 
-    updated_at = column(
-        datetime,
-        default=datetime.datetime.now,
-        onupdate=datetime.datetime.now(),
-        nullable=False
-    )
+    files = relationship("File", back_populate='author', lazy='noload', cascade='all,delete')
+
+    def __init__(self, name, notes, gid):
+        self.name = name
+        self.notes = notes
+        self.gid = gid
+
+
+class File(Base):
+    __tablename__ = "files"
+
+    id = Column(Integer(), primary_key=True, index=True)
+    title = Column(String(200), nullable=False)
+    notes = Column(String(200), nullable=False)
+    label = Column(String(200), nullable=False)
+
+    folder_gid = Column(String(20), ForeignKey('folders_gid'))
+    author = relationship("Folder", back_populate="files")
