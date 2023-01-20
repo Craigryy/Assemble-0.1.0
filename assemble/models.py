@@ -11,27 +11,34 @@ class Folder(Base):
     __tablename__ = "folders"
 
     id = Column(Integer(), primary_key=True)
-    name = Column(String(200), nullable=False)
+    name = Column(String(20), nullable=False)
+    notes= Column(String(100),nullable=False)
     files = relationship(
         "File",
         cascade="all, delete-orphan",
-        back_populates="folder",
+        back_populates="author",
         lazy="selectin",
     )
 
-    def __init__(self,name):
+    def __init__(self,name,notes):
         self.name=name
+        self.notes=notes
 
 class File(Base):
     __tablename__ = "files"
 
     id = Column(Integer(), primary_key=True, index=True)
-    Title = Column(String(200), nullable=False)
-    Notes = Column(String(200), nullable=False)
-    Label = Column(String(20), nullable=False)
+    title= Column (String(100),nullable=False)
+    notes= Column(String(100),nullable=False)
+    label= Column(String(100),nullable= False)
     folder_id = Column(Integer(), ForeignKey("folders.id")
     )
-    folder = relationship(
+    author = relationship(
         "Folder",
         back_populates="files",
     )
+
+    def __int__(self,title,notes,label):
+        self.title=title
+        self.notes=notes
+        self.label=label
