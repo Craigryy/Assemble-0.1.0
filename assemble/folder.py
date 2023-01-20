@@ -5,7 +5,6 @@ from assemble.database import get_folder_table
 app = typer.Typer(help='A command line tool to keep your folders')
 
 
-
 @app.command()
 def listFolders():
     """
@@ -26,17 +25,12 @@ def listFolders():
         )
 
 @app.command()
-def add(
-            name: str = typer.Argument(
-                ...,
-                help="name of the folder"
-            )
-    ):
+def add(name,notes):
         """
         Add a folder entry.
         """
         manager = folderManager()
-        created, message = manager.addFolder(name)
+        created, message = manager.addFolder(name,notes)
 
         if created:
             typer.echo(
