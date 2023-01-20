@@ -12,10 +12,110 @@ export NOTE_BOOK_DATABASE_URL=sqlite:///]
 --show-completion: Show completion for the current shell, to copy it or customize the installation .
 --help: Show this message and exit .
 
-# Commands:
-*add : Adds a note entry  to the notebook.
-delete: Delete a note entry using it's ID
-edit: Update a note entry using it's ID
-find:list all note entries that match the argument
-list: List all note entries in a table , limits upto...
-view : View a single entry using it's ID.
+## Installation
+
+You can install `assemble-0.1.0  by downloading the zip file and saving the folder to your desktop `:
+
+```console
+cd desktop(step 1)
+cd assemble-0.1.0(step 2)
+python -m assemble --help (step 3)
+```
+
+## How to use `assemble-0.1.0`
+
+**Usage**
+
+```console
+$ __main__.py [OPTIONS] COMMAND [ARGS]...
+```
+
+**Options**:
+
+* `--install-completion`: Install completion for the current shell.
+* `--show-completion`: Show completion for the current shell, to copy it or customize the installation.
+* `--help`: Show this message and exit.
+
+**Commands**:
+
+* `File`
+* `Folder`
+
+
+*** Folder Commands ***:
+### `Folder add`
+
+add a folder .
+**Usage**:
+
+```console
+$ python -m assemble Folder add [OPTIONS] name notes
+```
+
+**Arguments**:
+
+* `name`: name of the folder  [required]
+* `notes`: note of the folder  [required]
+
+**Options**:
+* `--help`: Show this message and exit.
+
+**Example:**
+
+```console
+$ python -m assemble Folder add  "random" "This is a good day "
+```
+
+### `Folder delete`
+
+Delete a folder using it's ID.
+
+**Usage**:
+
+
+```console
+$ python -m asssemble Folder delete [OPTIONS] ID
+```
+
+**Arguments**:
+
+* `ID`: ID of Folder entry  [required]
+
+**Options**:
+
+* `--help`: Show this message and exit.
+
+**Example:**
+
+```console
+$ python -m assemble Folder delete 1
+```
+
+### `File add`
+
+Add a file entry to a folder.
+
+**Usage**:
+
+```console
+$ python -m assemble File add [OPTIONS] ctitle  cnotes clabel
+```
+
+**Arguments**:
+
+* `ctitle`: title of the file entry  [required]
+* `cnotes`: notes of the file entry  [required]
+* `clabel`: label of the file entry  [required]
+
+**Options**:
+* `--help`: Show this message and exit.
+
+**Example:**
+
+```console
+$ python -m assemble File add  "First leg"  "The 2023 Marathon route runs through all 4 areas of the field" "random"
+```
+
+## Screenshot 
+
+![mywork](https://user-images.githubusercontent.com/116971272/213660795-0044f390-b20b-436e-806f-c4936f758110.png)
