@@ -28,11 +28,11 @@ class fileManger:
             self.session.rollback()
             return False, f'An error occurred while creating a file. {e}'
 
-
     def list(self):
-        return self.session.query(File).all()
-
-
+        file_name = 'notes-app.csv'
+        df = pandas.read_csv(file_name)
+        df.to_sql(con=self.engine, index=False, name=self.model_2.__tablename__, if_exists='append')
+        return self.session.query(self.model_2).all()
 
     def update(self, title=None, notes=None, label=None):
         if not title and not notes and not label:
