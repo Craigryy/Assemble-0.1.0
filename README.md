@@ -16,7 +16,8 @@ export NOTE_BOOK_DATABASE_URL=sqlite:///]
 
 You can install `assemble-0.1.0  by downloading the zip file and saving the folder unto your desktop `:
 
-```console
+
+```from your command prompt console
 cd desktop(step 1)
 cd assemble-0.1.0(step 2)
 python -m assemble --help (step 3)
