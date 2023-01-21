@@ -14,7 +14,7 @@ export NOTE_BOOK_DATABASE_URL=sqlite:///]
 
 ## Installation
 
-You can install `assemble-0.1.0  by downloading the zip file and saving the folder to your desktop `:
+You can install `assemble-0.1.0  by downloading the zip file and saving the folder unto your desktop `:
 
 ```console
 cd desktop(step 1)
