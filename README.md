@@ -63,8 +63,8 @@ $ python -m assemble Folder add [OPTIONS] name notes
 **Example:**
 
 ```console
-$ python -m assemble Folder add  "random" "This is a good day "
-```
+$ python -m assemble Folder add  "random" "This is a good day"
+
 
 ### `Folder delete`
 
@@ -91,6 +91,29 @@ $ python -m asssemble Folder delete [OPTIONS] ID
 $ python -m assemble Folder delete 1
 ```
 
+
+### `Folder listfolders`
+
+List all folder entries .
+
+**Usage**:
+
+
+```console
+$ python -m asssemble Folder listfolders 
+```
+
+**Options**:
+
+* `--help`: Show this message and exit.
+
+**Example:**
+
+```console
+$ python -m assemble Folder listfolders
+```
+
+
 ### `File add`
 
 Add a file entry to a folder.
@@ -115,6 +138,38 @@ $ python -m assemble File add [OPTIONS] ctitle  cnotes clabel
 ```console
 $ python -m assemble File add  "First leg"  "The 2023 Marathon route runs through all 4 areas of the field" "random"
 ```
+
+
+### `File edit-files`
+
+Edit a file entry to a folder.
+
+**Usage**:
+
+```console
+ __main__.py File edit-file [OPTIONS] TITLE NOTES LABEL
+ 
+ 
+ Usage:
+$ python -m assemble File edit-file [OPTIONS] title  notes label
+```
+
+### `File list-files`
+
+List all files-entries with attached to a folder with a pre_existing csv file inserted into the database.
+
+**Usage**:
+
+
+```console
+$ python -m asssemble File list-files 
+```
+
+**Options**:
+
+* `--help`: Show this message and exit.
+
+
 
 ## Screenshot 
 
