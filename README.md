@@ -158,7 +158,7 @@ $ python -m assemble File edit-file [OPTIONS] title  notes label
 
 ### `File list-files`
 
-List all files-entries with attached to a folder with a pre_existing csv file inserted into the database.
+List all files-entries attached to a folder with a pre_existing csv file inserted into the database.
 
 **Usage**:
 
