@@ -3,7 +3,7 @@ from tabulate import tabulate
 
 
 def get_file_table(file_entries):
-    """Create a dummy table for file/note Entries using tabulate"""
+    """Create table for file Entries using tabulate."""
     table_data = [
         [
             entry.id,
@@ -18,9 +18,9 @@ def get_file_table(file_entries):
     table_headers = [
         "# ID",
         "Title",
-        "notes",
-        "label",
-        "folder_id"
+        "Notes",
+        "Label",
+        "Folder_id"
     ]
 
     return tabulate(
@@ -28,8 +28,10 @@ def get_file_table(file_entries):
         headers=table_headers,
         tablefmt="pretty"
     )
+
+
 def get_folder_table(folder_entries):
-    """Create  dummy table for folder Entries using tabulate"""
+    """Create table for folder Entries using tabulate."""
     table_data = [
         [
             entry.id,
@@ -41,8 +43,8 @@ def get_folder_table(folder_entries):
 
     table_headers = [
         "# ID",
-        "NAME",
-        "NOTES"
+        "Name",
+        "Notes"
     ]
 
     return tabulate(
@@ -52,8 +54,8 @@ def get_folder_table(folder_entries):
     )
 
 
-
 def get_database_url():
-    BASE_DIR= os.path.dirname(os.path.realpath(__file__))
-    conn='sqlite:///'+os.path.join(BASE_DIR,'assemble.db')
+    """Get Database URL from environment variable."""
+    BASE_DIR = os.path.dirname(os.path.realpath(__file__))
+    conn = 'sqlite:///' + os.path.join(BASE_DIR, 'assemble.db')
     return conn
