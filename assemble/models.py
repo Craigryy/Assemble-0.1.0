@@ -6,13 +6,12 @@ Base = declarative_base()
 
 
 class Folder(Base):
-    """ Folder account."""
-
+    """Table to store users folder entries"""
     __tablename__ = "folders"
 
     id = Column(Integer(), primary_key=True)
     name = Column(String(20), nullable=False)
-    notes= Column(String(100),nullable=False)
+    notes = Column(String(100), nullable=False)
     files = relationship(
         "File",
         cascade="all, delete-orphan",
@@ -20,25 +19,27 @@ class Folder(Base):
         lazy="selectin",
     )
 
-    def __init__(self,name,notes):
-        self.name=name
-        self.notes=notes
+    def __init__(self, name, notes):
+        self.name = name
+        self.notes = notes
+
 
 class File(Base):
+    """Table to store users file entries"""
     __tablename__ = "files"
 
     id = Column(Integer(), primary_key=True, index=True)
-    title= Column (String(100),nullable=False)
-    notes= Column(String(100),nullable=False)
-    label= Column(String(100),nullable= False)
+    title = Column(String(100), nullable=False)
+    notes = Column(String(100), nullable=False)
+    label = Column(String(100), nullable=False)
     folder_id = Column(Integer(), ForeignKey("folders.id")
-    )
+                       )
     author = relationship(
         "Folder",
         back_populates="files",
     )
 
-    def __int__(self,title,notes,label):
-        self.title=title
-        self.notes=notes
-        self.label=label
+    def __int__(self, title, notes, label):
+        self.title = title
+        self.notes = notes
+        self.label = label
