@@ -39,7 +39,4 @@ class File(Base):
         back_populates="files",
     )
 
-    def __int__(self, title, notes, label):
-        self.title = title
-        self.notes = notes
-        self.label = label
+    
