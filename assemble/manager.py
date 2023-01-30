@@ -77,7 +77,7 @@ class folderManager:
         return folder_items
 
     def list(self):
-        return self.session.query(self.model).all()
+        return self.session.query(self.model).limit(10)
 
     def addFolder(self, name, notes):
         new_folder = Folder(name, notes)
