@@ -72,12 +72,12 @@ class folderManager:
         if not inspect(self.engine).has_table(self.model.__tablename__):
             self.model.metadata.create_all(bind=self.engine)
 
-    def get(self):
-        folder_items = self.session.query(self.model).limit(10)
+    def get(self,title):
+        folder_items = self.session.query(self.model).get(title)
         return folder_items
 
     def list(self):
-        return self.session.query(self.model).limit(10)
+        return self.session.query(self.model).limit(10).all()
 
     def addFolder(self, name, notes):
         new_folder = Folder(name, notes)
