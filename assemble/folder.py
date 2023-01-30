@@ -8,7 +8,7 @@ app = typer.Typer(help='A command line tool to keep your folders')
 @app.command()
 def listFolders():
     """
-    List all Folder entries in a table, limits up to 40 Folder entries.
+    List all Folder entries in a table, limits up to 10 Folder entries.
     """
     manager = folderManager()
     folder_entries = manager.list()
