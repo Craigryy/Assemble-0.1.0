@@ -73,7 +73,7 @@ class folderManager:
             self.model.metadata.create_all(bind=self.engine)
 
     def get(self):
-        folder_items = self.session.query(self.model).all()
+        folder_items = self.session.query(self.model).limit(10)
         return folder_items
 
     def list(self):
