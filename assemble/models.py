@@ -1,6 +1,7 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm.exc import FlushError
 
 Base = declarative_base()
 
@@ -18,10 +19,19 @@ class Folder(Base):
         back_populates="author",
         lazy="selectin",
     )
+    def __init__(self,name,notes):
+        self.name=name
+        self.notes=notes
 
-    def __init__(self, name, notes):
-        self.name = name
-        self.notes = notes
+
+    @property
+    def num_files(self):
+        return len(self.files)
+
+    def add_child(self,file):
+        if self.num_files >=10:
+            raise ValueError ('A folder can have at most 10 files.')
+        self.files.append(file)
 
 
 class File(Base):
@@ -32,11 +42,9 @@ class File(Base):
     title = Column(String(100), nullable=False)
     notes = Column(String(100), nullable=False)
     label = Column(String(100), nullable=False)
-    folder_id = Column(Integer(), ForeignKey("folders.id")
-                       )
+    folder_id = Column(Integer(), ForeignKey("folders.id"))
     author = relationship(
         "Folder",
         back_populates="files",
     )
 
-    
