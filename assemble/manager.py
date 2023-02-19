@@ -1,8 +1,10 @@
-import pandas
+import csv
 from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import sessionmaker
 from assemble.models import Folder, File
 from assemble.database import get_database_url
+
+
 
 
 class fileManger:
@@ -15,25 +17,43 @@ class fileManger:
         if not inspect(self.engine).has_table(self.model_2.__tablename__):
             self.model_2.metadata.create_all(bind=self.engine)
 
+
+
     def addFile(self, ctitle, cnotes, clabel):
+        # get a folder object you want to add the file to
         existing_folder = self.session.query(Folder).filter(Folder.name == clabel).first()
         try:
             new_file = File(title=ctitle, notes=cnotes, label=clabel, author=existing_folder)
             self.session.add(new_file)
             self.session.commit()
-            return True, f'your file has successfully been added'
+            return True,f'successfully saved '
         except Exception as e:
             self.session.rollback()
-            return False, f'An error occurred while creating a file. {e}'
+            return False,f'an error .{e}'
+
 
     def find(self, title):
+        #find a specific file entry using its title
         return self.session.query(File).filter(File.title == title).all()
 
+    def read_csv(self):
+        #read data from csv file
+        with open('notes-app.csv','r') as csvfile:
+            reader = csv.reader(csvfile)
+            next(reader)#skip the header row
+            for row in reader:
+                #create an instance of the file class with the row data
+                csv_data= File(title=row[0],notes=row[1],label=row[2],folder_id=row[3])
+                self.session.add(csv_data)
+                self.session.commit()
+                self.session.close()
+
+
     def list(self):
-        file_name = 'notes-app.csv'
-        df = pandas.read_csv(file_name)
-        df.to_sql(con=self.engine, index=False, name=self.model_2.__tablename__, if_exists='append')
-        return self.session.query(self.model_2).all()
+        #return list of all file entries
+        all_file = self.session.query(File).all()
+        return all_file
+
 
     def update(self, title=None, notes=None, label=None):
         if not title and not notes and not label:
@@ -72,24 +92,29 @@ class folderManager:
         if not inspect(self.engine).has_table(self.model.__tablename__):
             self.model.metadata.create_all(bind=self.engine)
 
-    def get(self,title):
-        folder_items = self.session.query(self.model).get(title)
+
+    def get(self):
+        # Get a folder Item
+        folder_items = self.session.query(self.model).all()
         return folder_items
 
     def list(self):
-        return self.session.query(self.model).limit(10).all()
+        #List all folder entries.
+        return self.session.query(self.model).all()
 
     def addFolder(self, name, notes):
+        #Add a folder entry
         new_folder = Folder(name, notes)
         try:
             self.session.add(new_folder)
             self.session.commit()
-            return True, 'Folder Created'
+            return True, f'Folder created .'
         except Exception as e:
             self.session.rollback()
             return False, f'An error occurred while creating a folder. {e}'
 
     def delete(self, id):
+        #Delte a particular folder entry using its ID
         Folder_to_delete = self.session.query(self.model).filter(Folder.id == id).first()
         self.session.delete(Folder_to_delete)
         try:
