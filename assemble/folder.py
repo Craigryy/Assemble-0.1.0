@@ -2,13 +2,13 @@ import typer
 from assemble.manager import folderManager
 from assemble.database import get_folder_table
 
-app = typer.Typer(help='A command line tool to keep your folders')
+app = typer.Typer(help='Create a folder to assemble your files')
 
 
 @app.command()
-def listFolders():
+def list_folders():
     """
-    List all Folder entries in a table, limits up to 10 Folder entries.
+    List all Folder entries in a table, limits up to 40 Folder entries.
     """
     manager = folderManager()
     folder_entries = manager.list()
@@ -52,18 +52,19 @@ def add(
         )
 
 
+
 @app.command()
 def delete(
-        id: int = typer.Argument(
+        name: str = typer.Argument(
             ...,
             help="ID of a folder entry"
-        )
+        ),
 ):
     """
-    Delete a folder entry using its ID.
+    Delete a folder entry using its ID or name.
     """
     manager = folderManager()
-    deleted, message = manager.delete(id)
+    deleted, message = manager.delete(name)
     if deleted:
         typer.echo(
             typer.style(message, fg=typer.colors.GREEN, bold=True)
@@ -72,6 +73,26 @@ def delete(
         typer.echo(
             typer.style(message, fg=typer.colors.RED, bold=True)
         )
+
+
+@app.command()
+def delete_all(
+
+):
+    """
+    Delete all folder entries.
+    """
+    manager = folderManager()
+    deleted, message = manager.delete_all()
+    if deleted:
+        typer.echo(
+            typer.style(message, fg=typer.colors.GREEN, bold=True)
+        )
+    else:
+        typer.echo(
+            typer.style(message, fg=typer.colors.RED, bold=True)
+        )
+
 
 
 if __name__ == "__main__":
