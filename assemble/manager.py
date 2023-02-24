@@ -1,10 +1,7 @@
-import csv
 from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import sessionmaker
 from assemble.models import Folder, File
 from assemble.database import get_database_url
-
-
 
 
 class fileManger:
@@ -18,48 +15,21 @@ class fileManger:
             self.model_2.metadata.create_all(bind=self.engine)
 
 
-
-    def addFile(self, ctitle, cnotes, clabel):
-        # get a folder object you want to add the file to
-        existing_folder = self.session.query(Folder).filter(Folder.name == clabel).first()
-        try:
-            new_file = File(title=ctitle, notes=cnotes, label=clabel, author=existing_folder)
-            self.session.add(new_file)
-            self.session.commit()
-            return True,f'successfully saved '
-        except Exception as e:
-            self.session.rollback()
-            return False,f'an error .{e}'
-
-
-    def find(self, title):
-        #find a specific file entry using its title
-        return self.session.query(File).filter(File.title == title).all()
-
-    def read_csv(self):
-        #read data from csv file
-        with open('notes-app.csv','r') as csvfile:
-            reader = csv.reader(csvfile)
-            next(reader)#skip the header row
-            for row in reader:
-                #create an instance of the file class with the row data
-                csv_data= File(title=row[0],notes=row[1],label=row[2],folder_id=row[3])
-                self.session.add(csv_data)
-                self.session.commit()
-                self.session.close()
+    def find(self, first_letter):
+        #Query the database to return a file entry
+        return self.session.query(File).filter(File.title.ilike(f"{first_letter}%")).all()
 
 
     def list(self):
-        #return list of all file entries
-        all_file = self.session.query(File).all()
-        return all_file
+        #Query the database to return a list of all file entries
+        return self.session.query(File).all()
 
 
     def update(self, title=None, notes=None, label=None):
         if not title and not notes and not label:
             return False, f'you  have  failed to provide an update'
 
-        file_entry = self.session.query(File).filter(Folder.name == label).first()
+        file_entry = self.session.query(File).filter(Folder.name == title).first()
 
         if file_entry:
             if title:
@@ -81,6 +51,33 @@ class fileManger:
             return False, f'No file Entry found with label={label}'
 
 
+    def addFile(self, ctitle, cnotes, clabel):
+        #Query the database to find a folder whose Folder name match the file tag and return the first item
+        file_folder = self.session.query(Folder).filter(Folder.name == clabel).first()
+        #If  a file_folder exist in the database, create a file and add .
+        if file_folder is not None:
+            NewFile = File(title=ctitle, notes=cnotes, label=clabel, author=file_folder)
+            #create add session
+            self.session.add(NewFile)
+            self.session.commit()
+            #close session
+            self.session.close()
+            return True, "File added to existing folder."
+        else:
+            #Create a default folder
+            default_folder = self.session.query(Folder).filter(Folder.name == 'Default Folder').first()
+            if default_folder is None:
+                default_folder = Folder(name='default',notes='have a nice day ')
+                self.session.add(default_folder)
+            # Create a new file with the default Folder
+                new_file = File(title=ctitle, notes=cnotes, label=clabel, author=default_folder)
+                self.session.add(new_file)
+                self.session.commit()
+                #close session
+                self.session.close()
+                return False, "File added to default Folder."
+
+
 class folderManager:
     model = Folder
     model_2 = File
@@ -92,30 +89,43 @@ class folderManager:
         if not inspect(self.engine).has_table(self.model.__tablename__):
             self.model.metadata.create_all(bind=self.engine)
 
-
     def get(self):
         # Get a folder Item
         folder_items = self.session.query(self.model).all()
         return folder_items
 
     def list(self):
-        #List all folder entries.
+        # List all folder entries.
         return self.session.query(self.model).all()
 
     def addFolder(self, name, notes):
-        #Add a folder entry
+        # Add a folder entry
         new_folder = Folder(name, notes)
-        try:
+        # check if a folder with the same name already exists in the database
+        existing_folder = self.session.query(self.model).filter(Folder.name == new_folder.name).first()
+        # if a folder with the same name exists,don't add the new folder and return an error message
+        if existing_folder:
+            return False, f"A folder with the name '{new_folder.name}'already exists in the database.Cannot add the new Folder."
+        # if a folder with the same name does not exist ,add the new folder to the database
+        else:
             self.session.add(new_folder)
             self.session.commit()
-            return True, f'Folder created .'
+            return True, f"Added folder '{new_folder.name}'with ID '{new_folder.id}' to the database."
+
+    def delete_all(self):
+        # Query and delete all Folders
+        self.session.query(self.model).delete()
+        self.session.query(self.model_2).delete()
+        try:
+            self.session.commit()
+            return True, 'All folders deleted'
         except Exception as e:
             self.session.rollback()
-            return False, f'An error occurred while creating a folder. {e}'
+            return False, f'An error occurred while deleting all folder. {e}'
 
-    def delete(self, id):
-        #Delte a particular folder entry using its ID
-        Folder_to_delete = self.session.query(self.model).filter(Folder.id == id).first()
+    def delete(self, name):
+        # Delete a particular folder entry using its name
+        Folder_to_delete = self.session.query(self.model).filter(Folder.name == name).first()
         self.session.delete(Folder_to_delete)
         try:
             self.session.commit()
@@ -123,3 +133,4 @@ class folderManager:
         except Exception as e:
             self.session.rollback()
             return False, f'An error occurred while deleting a folder. {e}'
+
