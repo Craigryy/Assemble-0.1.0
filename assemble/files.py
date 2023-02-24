@@ -1,22 +1,25 @@
 import typer
+import csv
+from assemble.models import File
 from assemble.manager import fileManger
-from assemble.database import get_file_table
+from assemble.database import get_file_table,get_database_url
 
-app = typer.Typer(help="A Command line tool to assemble your files ")
+
+app = typer.Typer(help="Save your files to a folder ")
 
 
 @app.command()
-def find(
-        title: str = typer.Argument(
+def search(
+        first_letter: str = typer.Argument(
             ...,
             help="String that may match file entry description."
         )
 ):
     """
-    List all file entries that match the argument.
+    search and return matching file(s) .
     """
     manager = fileManger()
-    file_entries = manager.find(title)
+    file_entries = manager.find(first_letter)
 
     if file_entries:
         typer.echo(get_file_table(file_entries))
@@ -24,7 +27,7 @@ def find(
         typer.echo(
             typer.style(
                 f'You do not have any title entries matching '
-                f'"{title}" in your file folder.',
+                f'"{first_letter}" in your file folder.',
                 fg=typer.colors.RED,
                 bold=True
             )
@@ -32,9 +35,9 @@ def find(
 
 
 @app.command()
-def list_files():
+def list():
     """
-    List all file entries tagged to a folder in a table,limit up to 40 file entries.
+    List all file entries tagged to a folder in a table,limit up to 10 file entries.
     """
     manager = fileManger()
     file_entries = manager.list()
@@ -69,7 +72,7 @@ def add(ctitle, cnotes, clabel):
 
 
 @app.command()
-def edit_file(title, notes, label):
+def edit(title, notes, label):
     """
     Update a file entry using its label.
     """
@@ -87,7 +90,6 @@ def edit_file(title, notes, label):
         typer.echo(
             typer.style(message, fg=typer.colors.RED, bold=True)
         )
-
 
 if __name__ == "__main__":
     app()
