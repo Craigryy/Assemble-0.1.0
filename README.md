@@ -1,6 +1,6 @@
 ![WhatsApp Image 2022-12-27 at 17 01 20](https://user-images.githubusercontent.com/116971272/209692029-de0aad6d-b3e7-4df1-a728-5da726c35752.jpg)
 # assemble
-a command line tool for a folder application
+a command line tool to assemble your files into your folders 
 
 # Configuration
 assemble-cli stores the sqlite database in -/.notebook/directionary by default.
@@ -13,36 +13,61 @@ export NOTE_BOOK_DATABASE_URL=sqlite:///]
 --help: Show this message and exit .
 
 ## Installation
-
-You can install `assemble-0.1.0  by downloading the zip file and saving the folder unto your desktop `:
+ Download the zip file and extract all the files in the folder after which go into your console `:
 
 
 ``` console
-from your command prompt
-cd desktop(step 1)
+from your command prompt on system
+cd download(step 1)
 cd assemble-0.1.0(step 2)
 python -m assemble --help (step 3)
 ```
 
 ## How to use `assemble-0.1.0`
-
 **Usage**
-
 ```console
 $ __main__.py [OPTIONS] COMMAND [ARGS]...
 ```
 
 **Options**:
-
 * `--install-completion`: Install completion for the current shell.
 * `--show-completion`: Show completion for the current shell, to copy it or customize the installation.
 * `--help`: Show this message and exit.
 
-**Commands**:
 
+**Commands**:
+* `Docs`
 * `File`
 * `Folder`
 
+*** Docs Commands***:
+* `Docs used to generate a markdown documentation`
+
+**Usage**:
+Usage: __main__.py Docs [OPTIONS] COMMAND [ARGS]...
+
+  Generate a markdown documentation
+
+**Option**:
+  --help  Show this message and exit.
+
+**Commands**:
+  -docs  Generate Markdown documentation for CRUD operation of a folder and...
+
+**console:
+>python -m assemble Docs docs
+Usage: __main__.py Docs docs [OPTIONS] FOLDER FILE
+Try '__main__.py Docs docs --help' for help.
+
+Error: Missing argument 'FOLDER'.
+
+**Arguments**:
+
+* `Folder`: name of the folder  [required]
+* `File`: name of the file  [required]
+
+
+***Folder***
 
 *** Folder Commands ***:
 ### `Folder add`
