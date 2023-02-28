@@ -1,7 +1,7 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm.exc import FlushError
+
 
 Base = declarative_base()
 
@@ -11,7 +11,7 @@ class Folder(Base):
     __tablename__ = "folders"
 
     id = Column(Integer(), primary_key=True)
-    name = Column(String(20), nullable=False)
+    name = Column(String(20), nullable=False,unique=True)
     notes = Column(String(100), nullable=False)
     files = relationship(
         "File",
@@ -39,12 +39,12 @@ class File(Base):
     __tablename__ = "files"
 
     id = Column(Integer(), primary_key=True, index=True)
-    title = Column(String(100), nullable=False)
+    title = Column(String(100), nullable=False,unique=True)
     notes = Column(String(100), nullable=False)
-    label = Column(String(100), nullable=False)
+    label = Column(String(100),nullable=True)
     folder_id = Column(Integer(), ForeignKey("folders.id"))
     author = relationship(
         "Folder",
-        back_populates="files",
+        back_populates="files"
     )
 
