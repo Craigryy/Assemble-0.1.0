@@ -15,14 +15,18 @@ class fileManger:
             self.model_2.metadata.create_all(bind=self.engine)
 
 
-    def find(self, first_letter):
+    def search(self, first_letter):
         #Query the database to return a file entry
-        return self.session.query(File).filter(File.title.ilike(f"{first_letter}%")).all()
+        return self.session.query(self.model_2).filter(File.title.ilike(f"{first_letter}%")).all()
+
+
+    def view(self,title):
+        return self.session.query(self.model_2).filter(File.title==title).all()
 
 
     def list(self):
         #Query the database to return a list of all file entries
-        return self.session.query(File).all()
+        return self.session.query(self.model_2).all()
 
 
     def update(self, title=None, notes=None, label=None):
@@ -52,30 +56,43 @@ class fileManger:
 
 
     def addFile(self, ctitle, cnotes, clabel):
-        #Query the database to find a folder whose Folder name match the file tag and return the first item
+        # Query the database to find a folder whose Folder name match the file tag and return the first item
         file_folder = self.session.query(Folder).filter(Folder.name == clabel).first()
-        #If  a file_folder exist in the database, create a file and add .
+        # If  a file_folder exist in the database, create a file and add .
         if file_folder is not None:
             NewFile = File(title=ctitle, notes=cnotes, label=clabel, author=file_folder)
-            #create add session
+            # create add session
             self.session.add(NewFile)
             self.session.commit()
-            #close session
+            # close session
             self.session.close()
             return True, "File added to existing folder."
         else:
-            #Create a default folder
+            # Create a default folder
             default_folder = self.session.query(Folder).filter(Folder.name == 'Default Folder').first()
             if default_folder is None:
-                default_folder = Folder(name='default',notes='have a nice day ')
+                default_folder = Folder(name=clabel, notes='have a nice day ')
                 self.session.add(default_folder)
-            # Create a new file with the default Folder
+                # Create a new file with the default Folder
                 new_file = File(title=ctitle, notes=cnotes, label=clabel, author=default_folder)
                 self.session.add(new_file)
                 self.session.commit()
-                #close session
+                # close session
                 self.session.close()
                 return False, "File added to default Folder."
+
+
+
+    def delete(self, name):
+        # Delete a particular file entry using its name
+        folder_to_delete = self.session.query(self.model_2).filter(File.name == name).first()
+        self.session.delete(folder_to_delete)
+        try:
+            self.session.commit()
+            return True, 'File deleted'
+        except Exception as e:
+            self.session.rollback()
+            return False, f'An error occurred while deleting a File. {e}'
 
 
 class folderManager:
@@ -89,9 +106,9 @@ class folderManager:
         if not inspect(self.engine).has_table(self.model.__tablename__):
             self.model.metadata.create_all(bind=self.engine)
 
-    def get(self):
+    def get(self,name):
         # Get a folder Item
-        folder_items = self.session.query(self.model).all()
+        folder_items = self.session.query(self.model).filter(Folder.name==name).first()
         return folder_items
 
     def list(self):
