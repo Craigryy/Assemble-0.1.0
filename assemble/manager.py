@@ -69,9 +69,9 @@ class fileManger:
             return True, "File added to existing folder."
         else:
             # Create a default folder
-            default_folder = self.session.query(Folder).filter(Folder.name == 'Default Folder').first()
+            default_folder = self.session.query(Folder).filter(Folder.name == 'default').first()
             if default_folder is None:
-                default_folder = Folder(name=clabel, notes='have a nice day ')
+                default_folder = Folder(name="default", notes='have a nice day ')
                 self.session.add(default_folder)
                 # Create a new file with the default Folder
                 new_file = File(title=ctitle, notes=cnotes, label=clabel, author=default_folder)
@@ -79,7 +79,7 @@ class fileManger:
                 self.session.commit()
                 # close session
                 self.session.close()
-                return False, "File added to default Folder."
+                return False, "File added to folder name: {default_folder.name} with ID: {default_folder.id}."
 
 
 
