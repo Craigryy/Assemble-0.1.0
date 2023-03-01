@@ -152,3 +152,40 @@ def Delete(
     typer.echo(typer.style(f"File {title} have been deleted .",fg=typer.colors.GREEN,bold=True))
 
 
+@app.command()
+def insert(csv_filename: str):
+    """
+    insert csv into model database
+    """
+    engine = create_engine(get_database_url())
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+    # Open the CSV file and insert its contents into the table
+    with open(csv_filename) as csvfile:
+        reader = csv.reader(csvfile)
+        next(reader) # skip header row
+        for row in reader:
+            data = File(title=row[0],
+                        notes=row[1],
+                        label=row[2]
+                        )
+            session.add(data)
+            session.commit()
+
+    typer.echo(typer.style(f"csv file added to file table .",fg=typer.colors.GREEN,bold=True))
+
+
+if __name__ == "_main_":
+    app()
+
+
+
+
+
+
+
+
+
+
+
