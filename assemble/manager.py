@@ -80,6 +80,41 @@ class fileManger:
                 # close session
                 self.session.close()
                 return False, "File added to folder name: {default_folder.name} with ID: {default_folder.id}."
+            
+            
+     
+
+    def create(ctitle: str, cnotes: str, clabel=None):
+        """
+        create a file without a label
+        """
+
+        engine = create_engine(get_database_url())
+        Session = sessionmaker(bind=engine)
+        session = Session()
+
+        if clabel is None:
+            # create a default folder
+            default_parent = Folder(name=ctitle, notes="have a nice day ")
+            session.add(default_parent)
+            session.commit()
+            # create a file and match to the default folder.
+            child = File(title=ctitle, notes=cnotes, author=default_parent)
+        else:
+            # query the database and find an existing folder
+            existing_parent = session.query(Folder).filter(Folder.name == clabel).first()
+            if existing_parent:
+                # if exist , create a file and add te file
+                child = File(title=ctitle, notes=cnotes, label=clabel, author=existing_parent)
+            else:
+                # if no existing folder , create a default folder and match it
+                new_folder = Folder(name='New Parent', notes="have a nice day ")
+                session.add(new_folder)
+                session.commit()
+                child = File(title=ctitle, notes=cnotes, label=clabel, parent=new_folder)
+                session.add(child)
+                session.commit()
+  
 
 
 
