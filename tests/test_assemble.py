@@ -1,6 +1,6 @@
-from asseme import __version__
+from assemble import __version__
 import unittest
-from asseme.models import Folder, Base
+from assemble.models import Folder, Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 

@@ -74,9 +74,9 @@ def List():
     else:
         typer.echo(
             typer.style((f'You do not have any file entries.'),
-                fg=typer.colors.MAGENTA,
-                bold=True
-            )
+                        fg=typer.colors.MAGENTA,
+                        bold=True
+                        )
         )
 
 
