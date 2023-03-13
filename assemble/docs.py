@@ -16,7 +16,8 @@ def Docs(folder: str, file: str, one_to_many: bool = True):
         print(f"## {folder.title()}\n")
         print(f"### Create {folder.title()}\n")
         print(f"### Request\n")
-        print(f"json\n{{\n    \"id\": \"integer\",\n    \"name\": \"string\", \"notes\":\"string\"\n}}\n")
+        print(
+            f"json\n{{\n    \"id\": \"integer\",\n    \"name\": \"string\", \"notes\":\"string\"\n}}\n")
         print(f"### Get {folder.title()}\n")
         print(f"#### Request\n")
         print(f"http\nGET /{folder.lower()}s/{{id}}\n")
@@ -41,4 +42,3 @@ def Docs(folder: str, file: str, one_to_many: bool = True):
     else:
         # Code for many-to-many relationship CRUD documentation
         pass
-

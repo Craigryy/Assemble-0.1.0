@@ -1,7 +1,7 @@
 import typer
-from assemble.manager import folderManager
-from assemble.database import get_folder_table
-from assemble.models import Folder
+from asseme.manager import folderManager
+from asseme.database import get_folder_table
+from asseme.models import Folder
 
 
 app = typer.Typer(help='Create a folder to assemble your files')
@@ -33,8 +33,7 @@ def Add(
         name: str = typer.Argument(
             ...,
             help="Name of the folder entry."
-        )
-        , notes: str = typer.Argument(
+        ), notes: str = typer.Argument(
             ...,
             help="Note of a folder entry."
         )
@@ -61,7 +60,8 @@ def Delete(
             ...,
             help="ID of a folder entry"
         ),
- yes : bool = typer.Option(False,"--yes","-y",help="skip confirmation prompt and delete the folder and all of its files.")
+    yes: bool = typer.Option(False, "--yes", "-y",
+                             help="skip confirmation prompt and delete the folder and all of its files.")
 
 ):
     """
@@ -69,23 +69,26 @@ def Delete(
     """
     manager = folderManager()
 
-    folder = manager.session.query(Folder).filter(Folder.name==name).first()
+    folder = manager.session.query(Folder).filter(Folder.name == name).first()
     if not folder:
-        typer.echo(typer.style(f"No folder with the name: {name} found in the database.",fg=typer.colors.RED,bold=True))
+        typer.echo(typer.style(
+            f"No folder with the name: {name} found in the database.", fg=typer.colors.RED, bold=True))
         return
 
-    folder = manager.session.query(Folder).filter(Folder.name==name).first()
+    folder = manager.session.query(Folder).filter(Folder.name == name).first()
 
     if not yes:
-        #prompt the user to confirm the deletion.
-        confirm= typer.confirm(typer.style(f"Are you sure you want to delete folder name: {name} and all of its files found in the database.",fg=typer.colors.MAGENTA,bold=True))
+        # prompt the user to confirm the deletion.
+        confirm = typer.confirm(typer.style(
+            f"Are you sure you want to delete folder name: {name} and all of its files found in the database.", fg=typer.colors.MAGENTA, bold=True))
         if not confirm:
             return
         manager.session.delete(folder)
     manager.session.delete(folder)
     manager.session.commit()
 
-    typer.echo(typer.style(f"Folder: {name} have been deleted .",fg=typer.colors.GREEN,bold=True))
+    typer.echo(typer.style(
+        f"Folder: {name} have been deleted .", fg=typer.colors.GREEN, bold=True))
 
 
 @app.command()
@@ -94,7 +97,7 @@ def Delete_all(
     """
     Delete all folder entries.
     """
-    confirmation=typer.confirm("Are you sure you want to delete all items")
+    confirmation = typer.confirm("Are you sure you want to delete all items")
     manager = folderManager()
     deleted, message = manager.delete_all()
     if deleted and confirmation:

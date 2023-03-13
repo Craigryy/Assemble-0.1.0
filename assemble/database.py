@@ -1,15 +1,16 @@
 import os
 from tabulate import tabulate
 
-def get_file_table(file_entries):
 
+def get_file_table(file_entries):
     """Create table for file Entries using tabulate."""
 
-    table_data =[]
+    table_data = []
     for file in file_entries:
-        table_data.append([file.id,file.title,file.notes,file.label,file.folder_id])
+        table_data.append([file.id, file.title, file.notes,
+                          file.label, file.folder_id])
 
-    #use tabulate library to format the table
+    # use tabulate library to format the table
     table_headers = [
         "# ID",
         "Title",

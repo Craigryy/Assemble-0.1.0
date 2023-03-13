@@ -1,6 +1,6 @@
 import typer
-from assemble import __app_name__, __version__
-from assemble.__main__ import app
+from asseme import __app_name__, __version__
+from asseme.__main__ import app
 from typing import Optional
 
 
