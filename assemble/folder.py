@@ -21,7 +21,7 @@ def List():
     else:
         typer.echo(
             typer.style(
-                f'You do not have any entries in your folder.',
+                ("You do not have any entries in your folder."),
                 fg=typer.colors.MAGENTA,
                 bold=True
             )
@@ -59,9 +59,8 @@ def Delete(
         name: str = typer.Argument(
             ...,
             help="ID of a folder entry"
-        ),
-    yes: bool = typer.Option(False, "--yes", "-y",
-                             help="skip confirmation prompt and delete the folder and all of its files.")
+        ), yes: bool = typer.Option(False, "--yes", "-y",
+                                    help="skip confirmation prompt and delete the folder and all of its files.")
 
 ):
     """

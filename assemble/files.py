@@ -73,7 +73,7 @@ def List():
         typer.echo(get_file_table(file_entries))
     else:
         typer.echo(
-            typer.style((f'You do not have any file entries.'),
+            typer.style(('You do not have any file entries.'),
                         fg=typer.colors.MAGENTA,
                         bold=True
                         )
@@ -208,8 +208,7 @@ def insert(csv_filename: str):
                         )
             manager.save(data)
 
-    typer.echo(typer.style((f"csv file added to file table ."),
-               fg=typer.colors.GREEN, bold=True))
+    typer.echo(typer.style(("csv file added to file table ."), fg=typer.colors.GREEN, bold=True))
 
 
 if __name__ == "_main_":

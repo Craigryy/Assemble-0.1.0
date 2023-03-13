@@ -15,27 +15,27 @@ def Docs(folder: str, file: str, one_to_many: bool = True):
     if one_to_many:
         print(f"## {folder.title()}\n")
         print(f"### Create {folder.title()}\n")
-        print(f"### Request\n")
+        print("### Request\n")
         print(
-            f"json\n{{\n    \"id\": \"integer\",\n    \"name\": \"string\", \"notes\":\"string\"\n}}\n")
+            "json\n{{\n    \"id\": \"integer\",\n    \"name\": \"string\", \"notes\":\"string\"\n}}\n")
         print(f"### Get {folder.title()}\n")
-        print(f"#### Request\n")
+        print("#### Request\n")
         print(f"http\nGET /{folder.lower()}s/{{id}}\n")
-        print(f"#### Response\n")
+        print("#### Response\n")
         print(
             f"json\n{{\n    \"id\": \"integer\",\n    \"name\": \"string\",\n    \"{file.lower()}s\": [\n              {{\n       \"id\": \"integer\",\n            \"title\": \"string\",\n    \"notes\": \"string\",\n   \"label\": \"string\",\n       }}\n    ]\n}}\n")
 
         print(f"## {file.title()}\n")
         print(f"### Create {file.title()}\n")
-        print(f"#### Request\n")
+        print("#### Request\n")
         print(f"json\n{{\n    \"title\": \"string\",\n   \"notes\": \"string\",\n   \"label\": \"string\"\n,    \"{folder.lower()}_id\": \"integer\"\n}}\n")
-        print(f"#### Response\n")
+        print("#### Response\n")
         print(
             f"json\n{{\n    \"id\": \"integer\",\n   \"title\": \"string\",\n   \"notes\": \"string\",\n    \"label\": \"string\",\n     \"{folder.lower()}_id\": \"integer\"\n}}\n")
         print(f"### Get {file.title()}\n")
-        print(f"#### Request\n")
+        print("#### Request\n")
         print(f"http\nGET /{file.lower()}s/{{id}}\n")
-        print(f"#### Response\n")
+        print("#### Response\n")
         print(
             f"json\n{{\n    \"id\": \"integer\",\n    \"title\": \"string\",\n       \"notes\": \"string\",\n    \"label\": \"string\",\n      \"{folder.lower()}_id\": \"integer\",\n    \"{folder.lower()}\": {{\n        \"id\": \"integer\",\n        \"name\": \"string\"\n    }}\n}}\n")
 
