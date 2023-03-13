@@ -1,7 +1,7 @@
 import typer
-from asseme.manager import folderManager
-from asseme.database import get_folder_table
-from asseme.models import Folder
+from assemble.manager import folderManager
+from assemble.database import get_folder_table
+from assemble.models import Folder
 
 
 app = typer.Typer(help='Create a folder to assemble your files')
