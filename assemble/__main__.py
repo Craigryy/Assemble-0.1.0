@@ -1,6 +1,6 @@
 import typer
 from rich.traceback import install
-from asseme import files, folder, docs
+from assemble import files, folder, docs
 
 app = typer.Typer()
 app.add_typer(folder.app, name="Folder")

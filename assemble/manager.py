@@ -1,8 +1,8 @@
 import csv
 from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import sessionmaker
-from asseme.models import Folder, File
-from asseme.database import get_database_url
+from assemble.models import Folder, File
+from assemble.database import get_database_url
 
 
 class fileManger:
