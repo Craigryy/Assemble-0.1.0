@@ -59,12 +59,18 @@ class ParentChildModelTest(TestCase):
 
         self.assertEqual(expected, retrieved_file)
 
-    # def test_query_update(self):
-    #     expected=[self.file.title=='koko']
-    #     self.session.commit()
+    def test_update_file(self):
+        self.file = File(title='Alice', notes='hello', label='jesus' , author=self.folder)
+        self.session.add(self.file)
+        self.session.commit()
 
-    #     result = self.session.query(File).all()
-    #     self.assertEqual(result,expected)
+        self.file.title = 'james'
+        self.session.commit()
+
+        retrieved_file = self.session.query(File).all()
+        expected = [self.file]
+
+        self.assertEqual(expected, retrieved_file)
 
     def test_delete_file(self):
         # create a file object
