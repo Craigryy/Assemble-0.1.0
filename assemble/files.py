@@ -1,16 +1,20 @@
 import typer
-import csv
-from assemble.models import File, Folder
-from assemble.manager import fileManger, folderManager
-from assemble.database import get_file_table
 from typing import Optional
+
+
+import csv
+
+
+from assemble.models import File, Folder
+from assemble.manager import file_manager, folder_manager
+from assemble.utilis import get_file_table
 
 
 app = typer.Typer(help="Save your files to a folder ")
 
 
 @app.command()
-def Search(
+def search(
         first_letter: str = typer.Argument(
             ...,
             help="String that may match file entry description."
@@ -19,7 +23,7 @@ def Search(
     """
     search and return matching file(s) .
     """
-    manager = fileManger()
+    manager = file_manager()
     file_entries = manager.search(first_letter)
 
     if file_entries:
@@ -36,7 +40,7 @@ def Search(
 
 
 @app.command()
-def View(
+def view(
         title: str = typer.Argument(
             ...,
             help="String that may match file entry description."
@@ -45,7 +49,7 @@ def View(
     """
     view and return matching file .
     """
-    manager = fileManger()
+    manager = file_manager()
     file_entries = manager.view(title)
 
     if file_entries:
@@ -62,11 +66,11 @@ def View(
 
 
 @app.command()
-def List():
+def list():
     """
-    List all file entries tagged to a folder in a table,limit up to 10 file entries.
+    list all file entries tagged to a folder in a table,limit up to 10 file entries.
     """
-    manager = fileManger()
+    manager = file_manager()
     file_entries = manager.list()
 
     if file_entries:
@@ -81,11 +85,11 @@ def List():
 
 
 @app.command()
-def Add(ctitle, cnotes, clabel: Optional[str] = typer.Argument(None)):
+def add(ctitle, cnotes, clabel: Optional[str] = typer.Argument(None)):
     """
-    Add a file entry to a folder.
+    add a file entry to a folder.
     """
-    manager = fileManger() or folderManager()
+    manager = file_manager() or folder_manager()
 
     if clabel is None:
         clabel = "default"
@@ -133,12 +137,12 @@ def Add(ctitle, cnotes, clabel: Optional[str] = typer.Argument(None)):
 
 
 @app.command()
-def Edit(title, notes, label):
+def edit(title, notes, label):
     """
-    Update a file entry using its label.
+    update a file entry using its label.
     """
 
-    manager = fileManger()
+    manager = file_manager()
     updated, message = manager.update(
         title=title,
         notes=notes,
@@ -156,16 +160,16 @@ def Edit(title, notes, label):
 
 
 @app.command()
-def Delete(
+def delete(
         title: str,
         yes: bool = typer.Option(False, "--yes", "-y",
                                  help="skip confirmation prompt and delete the folder and all of its files.")
 ):
     """
-    Delete a folder entry using its name and all of its file(s).
+    delete a folder entry using its name and all of its file(s).
     """
 
-    manager = fileManger()
+    manager = file_manager()
 
     filee = manager.session.query(File).filter(File.title == title).first()
     if not filee:
@@ -195,7 +199,7 @@ def insert(csv_filename: str):
     """
     insert csv into model database
     """
-    manager = fileManger()
+    manager = file_manager()
 
     # Open the CSV file and insert its contents into the table
     with open(csv_filename) as csvfile:

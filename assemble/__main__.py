@@ -1,5 +1,7 @@
 import typer
+
 from rich.traceback import install
+
 from assemble import files, folder, docs
 
 app = typer.Typer()

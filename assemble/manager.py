@@ -1,11 +1,13 @@
 import csv
+
 from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import sessionmaker
+
 from assemble.models import Folder, File
-from assemble.database import get_database_url
+from assemble.utilis import get_database_url
 
 
-class fileManger:
+class file_manager:
     model = Folder
     model_2 = File
 
@@ -18,10 +20,17 @@ class fileManger:
             self.model_2.metadata.create_all(bind=self.engine)
 
     def save(self, obj):
+        """
+        save function.
+        """
+        # def a save function.
         self.session.add(obj)
         self.session.commit()
 
     def insert(self, csv_filename):
+        """
+        insert csv function.
+        """
         # Open the CSV file and insert its contents into the table
         with open(csv_filename) as csvfile:
             reader = csv.reader(csvfile)
@@ -35,17 +44,31 @@ class fileManger:
         self.save(data)
 
     def search(self, first_letter):
+        """
+        search for the first letter .
+        """
         # Query the database to return a file entry
         return self.session.query(self.model_2).filter(self.model_2.title.ilike(f"{first_letter}%")).all()
 
     def view(self, title):
+        """
+        view a file by its title .
+        """
+        # create a session that views a file by its title.
         return self.session.query(self.model_2).filter(self.model_2.title == title).all()
 
     def list(self):
-        # Query the database to return a list of all file entries
+        """
+        list a file by its title .
+        """
+        # create a session that list all files.
         return self.session.query(self.model_2).all()
 
     def update(self, title=None, notes=None, label=None):
+        """
+        Update a fie entry.
+        """
+        # if none of the parameters wasn't given.
         if not title and not notes and not label:
             return False, ("you  have  failed to provide an update")
 
@@ -73,7 +96,7 @@ class fileManger:
 
     def delete(self, name):
         """
-        delete a file using its name
+        delete a file using its name.
         """
         # Query the database and return a file entry by its name
         folder_to_delete = self.session.query(
@@ -89,8 +112,9 @@ class fileManger:
 
     def add_file(self, ctitle: str, cnotes: str, clabel=None):
         """
-        create a file entry
+        create a file entry.
         """
+        # if label isn't given.
         if clabel is None:
             # query database for a default folder
             default_folder = self.session.query(self.model).filter(
@@ -116,7 +140,7 @@ class fileManger:
                 fol = Folder(name="default_file", notes="man")
                 self.save(fol)
                 NewFile = File(title=ctitle, notes=cnotes,
-                               label=clabel, author=file_folder)
+                               label=clabel, author=fol)
                 self.save(NewFile)
                 return True, f"file added to an existng folder name:{NewFile.label}"
 
@@ -130,11 +154,14 @@ class fileManger:
             return True, f"new folder : {folder.name} created with file title : {file.title} added."
 
 
-class folderManager:
+class folder_manager:
     model = Folder
     model_2 = File
 
     def __init__(self):
+        """
+        initalize the class.
+        """
         self.engine = create_engine(get_database_url(), echo=False)
         self.session = sessionmaker(bind=self.engine)()
 
@@ -142,20 +169,32 @@ class folderManager:
             self.model.metadata.create_all(bind=self.engine)
 
     def save(self, obj):
+        """
+        save function.
+        """
         self.session.add(obj)
         self.session.commit()
 
     def get(self, name):
+        """
+        get a folder item.
+        """
         # Get a folder Item
         folder_items = self.session.query(
             self.model).filter(Folder.name == name).first()
         return folder_items
 
     def list(self):
+        """
+        List all folder entries.
+        """
         # List all folder entries.
         return self.session.query(self.model).all()
 
     def addFolder(self, name, notes):
+        """
+        Create and add a folder entry.
+        """
         # Add a folder entry
         new_folder = Folder(name, notes)
         # check if a folder with the same name already exists in the database
@@ -170,6 +209,9 @@ class folderManager:
             return True, f"Added folder '{new_folder.name}'with ID '{new_folder.id}' to the database."
 
     def delete_all(self):
+        """
+        Delete all folder entry
+        """
         # Query and delete all Folders
         self.session.query(self.model).delete()
         self.session.query(self.model_2).delete()
@@ -180,6 +222,9 @@ class folderManager:
             return False, f'An error occurred while deleting all folder. {e}'
 
     def delete(self, name):
+        """
+        Delete a folder by name.
+        """
         # Delete a particular folder entry using its name
         Folder_to_delete = self.session.query(
             Folder).filter(Folder.name == name).first()

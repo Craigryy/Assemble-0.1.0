@@ -1,6 +1,8 @@
 import typer
-from assemble.manager import folderManager
-from assemble.database import get_folder_table
+
+
+from assemble.manager import folder_manager
+from assemble.utilis import get_folder_table
 from assemble.models import Folder
 
 
@@ -8,12 +10,12 @@ app = typer.Typer(help='Create a folder to assemble your files')
 
 
 @app.command()
-def List():
+def list():
     """
-    List all Folder entries in a table, limits up to 40 Folder entries.
+    list all Folder entries in a table, limits up to 40 Folder entries.
     """
 
-    manager = folderManager()
+    manager = folder_manager()
     folder_entries = manager.list()
 
     if folder_entries:
@@ -29,7 +31,7 @@ def List():
 
 
 @app.command()
-def Add(
+def add(
         name: str = typer.Argument(
             ...,
             help="Name of the folder entry."
@@ -39,9 +41,9 @@ def Add(
         )
 ):
     """
-    Add a folder entry.
+    add a folder entry.
     """
-    manager = folderManager()
+    manager = folder_manager()
     created, message = manager.addFolder(name, notes)
 
     if created:
@@ -55,7 +57,7 @@ def Add(
 
 
 @app.command()
-def Delete(
+def delete(
         name: str = typer.Argument(
             ...,
             help="ID of a folder entry"
@@ -64,9 +66,9 @@ def Delete(
 
 ):
     """
-    Delete a folder entry using its name.
+    delete a folder entry using its name.
     """
-    manager = folderManager()
+    manager = folder_manager()
 
     folder = manager.session.query(Folder).filter(Folder.name == name).first()
     if not folder:
@@ -91,13 +93,13 @@ def Delete(
 
 
 @app.command()
-def Delete_all(
+def delete_all(
 ):
     """
-    Delete all folder entries.
+    delete all folder entries.
     """
     confirmation = typer.confirm("Are you sure you want to delete all items")
-    manager = folderManager()
+    manager = folder_manager()
     deleted, message = manager.delete_all()
     if deleted and confirmation:
         typer.echo(

@@ -1,7 +1,9 @@
 import typer
+from typing import Optional
+
+
 from assemble import __app_name__, __version__
 from assemble.__main__ import app
-from typing import Optional
 
 
 def _version_callback(value: bool) -> None:

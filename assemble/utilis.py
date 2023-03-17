@@ -4,7 +4,6 @@ from tabulate import tabulate
 
 def get_file_table(file_entries):
     """Create table for file Entries using tabulate."""
-
     table_data = []
     for file in file_entries:
         table_data.append([file.id, file.title, file.notes,

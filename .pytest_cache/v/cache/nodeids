@@ -1,0 +1,20 @@
+[
+  "tests/test_assemble.py::ParentChildModelTest::test_create_child",
+  "tests/test_assemble.py::ParentChildModelTest::test_create_file",
+  "tests/test_assemble.py::ParentChildModelTest::test_delete_file",
+  "tests/test_assemble.py::ParentChildModelTest::test_delete_query",
+  "tests/test_assemble.py::ParentChildModelTest::test_insert_csv",
+  "tests/test_assemble.py::ParentChildModelTest::test_query_folder",
+  "tests/test_assemble.py::ParentChildModelTest::test_query_update",
+  "tests/test_assemble.py::ParentChildModelTest::test_read_file",
+  "tests/test_assemble.py::ParentChildModelTest::test_update_file",
+  "tests/test_assemble.py::TestModels::test_child_model_crud",
+  "tests/test_assemble.py::TestModels::test_parent_model_crud",
+  "tests/test_assemble.py::TestQuery::test_query_folder",
+  "tests/test_assemble.py::test_version",
+  "tests/test_models.py::TestParentChildCRUD::test_create",
+  "tests/test_models.py::TestParentChildCRUD::test_read",
+  "tests/test_models.py::TestQuery::test_File_model_crud",
+  "tests/test_models.py::TestQuery::test_folder_model_crud",
+  "tests/test_models.py::TestQuery::test_query_folder"
+]

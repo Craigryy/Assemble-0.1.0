@@ -1,0 +1,9 @@
+{
+  "tests/test_models.py::TestQuery::test_folder_model_crud": true,
+  "tests/test_assemble.py::TestModels::test_child_model_crud": true,
+  "tests/test_assemble.py::TestModels::test_parent_model_crud": true,
+  "tests/test_assemble.py::ParentChildModelTest::test_insert_csv": true,
+  "tests/test_assemble.py::ParentChildModelTest::test_read_file": true,
+  "tests/test_models.py::TestParentChildCRUD::test_create": true,
+  "tests/test_models.py::TestParentChildCRUD::test_read": true
+}
