@@ -24,14 +24,6 @@ class Folder(Base):
         self.name = name
         self.notes = notes
 
-    @property
-    def num_files(self):
-        return len(self.files)
-
-    def add_child(self, file):
-        if self.num_files >= 10:
-            raise ValueError('A folder can have at most 10 files.')
-        self.files.append(file)
 
 
 class File(Base):
