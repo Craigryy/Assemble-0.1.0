@@ -168,12 +168,9 @@ $ python -m assemble File add  "First leg"  "The 2023 Marathon route runs throug
 Edit a file entry to a folder.
 
 **Usage**:
-
-```console
- __main__.py File edit-file [OPTIONS] TITLE NOTES LABEL
- 
  
  Usage:
+```console
 $ python -m assemble File edit-file [OPTIONS] title  notes label
 ```
 
