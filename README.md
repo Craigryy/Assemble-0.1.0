@@ -201,7 +201,7 @@ Delete all files-entries in the database.
 
 
 ```console
-$ python -m asssemble File delete 
+$ python -m asssemble File delete name 
 ```
 
 **Options**:
