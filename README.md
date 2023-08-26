@@ -4,23 +4,24 @@
 a command line tool to assemble your files into your folders 
 
 # Configuration
-assemble-cli stores the sqlite database in -/.notebook/directionary by default.
-exaample:
+assemble-cli stores the SQLite database in -/.notebook/directory by default.
+example:
 export NOTE_BOOK_DATABASE_URL=sqlite:///]
 
 # Options:
 *--install--completion: Install completion for the current shell.
---show-completion: Show completion for the current shell, to copy it or customize the installation .
---help: Show this message and exit .
+--show-completion: Show completion for the current shell, to copy it or customize the installation.
+--help: Show this message and exit.
 
 ## Installation
  Download the zip file and extract all the files in the folder after which go into your console `:
 
+from your command prompt or git bash 
+1. cd to downloads or directory the folder is located
+2. Write on console
 
 ``` console
-from your command prompt or git bash 
-1.cd to downloads or directory the folder is located
-2.write on console 'poetry run python -m assemble --help'
+ 'poetry run python -m assemble --help'
 ```
 
 ## How to use `assemble-0.1.0`
