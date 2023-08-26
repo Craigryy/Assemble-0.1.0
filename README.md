@@ -96,12 +96,6 @@ $ poetry run python -m assemble Folder add  "random" "This is a good day"
 ```
 
 
-### `Folder delete`:
-
-Delete a folder using it's name.
-
-**Usage**:
-
 
 ```console
 $ python -m asssemble Folder delete [OPTIONS] NAME
