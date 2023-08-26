@@ -191,3 +191,19 @@ $ python -m asssemble File list-files
 **Options**:
 
 * `--help`: Show this message and exit.
+
+
+### `File delete`
+
+Delete all files-entries in the database.
+
+**Usage**:
+
+
+```console
+$ python -m asssemble File delete 
+```
+
+**Options**:
+
+* `--help`: Show this message and exit.
