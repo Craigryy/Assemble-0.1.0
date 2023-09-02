@@ -20,6 +20,11 @@ from your command prompt or git bash
 1. cd to downloads or directory the folder is located
 2. Write on console
 
+
+![Screenshot (13)](https://github.com/Craigryy/Assemble-0.1.0/assets/116971272/54cbde2c-faa3-4a35-aed7-cdcaae001cf7)
+
+
+
 ``` console
  'poetry run python -m assemble --help'
 ```
